@@ -1,4 +1,4 @@
-image: maven:latest
+image: maven:3-openjdk-8
 
 stages:
   - build
@@ -6,8 +6,9 @@ stages:
   - package
 
 variables:
-  MAVEN_CLI_OPTS: "-s"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  FF_NETWORK_PER_BUILD: "true"
+  # FF_NETWORK_PER_BUILD - Coloca tudo na mesma rede. Os services e o container onde roda a build.
 
 cache:
   paths:
@@ -17,14 +18,30 @@ cache:
 build:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS compile
+    - SPRING_PROFILES_ACTIVE=dev mvn clean compile -Dcheckstyle.skip
 
 test:
+  services:
+    - name: selenium/standalone-chrome
+      alias: selenium-chrome-browser
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS test
+    - SPRING_PROFILES_ACTIVE=dev mvn test
+  artifacts:
+    when: always
+    untracked: false
+    expire_in: 30 days
+    paths:
+      - target/surefire-reports
+      - target/checkstyle-result.xml
+      - target/*.png
 
 package:
   stage: package
   script:
-    - mvn $MAVEN_CLI_OPTS package
+    - mvn package -Dmaven.test.skip=true
+  artifacts:
+    untracked: false
+    expire_in: 30 days
+    paths:
+      - target/*.jar

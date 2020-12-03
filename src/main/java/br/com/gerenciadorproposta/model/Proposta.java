@@ -2,10 +2,7 @@ package br.com.gerenciadorproposta.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -28,7 +25,7 @@ public class Proposta {
 
     @ApiModelProperty(value = "Código da proposta", example = "1")
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "Descrição", example = "Implementação de sistema de autenticação")

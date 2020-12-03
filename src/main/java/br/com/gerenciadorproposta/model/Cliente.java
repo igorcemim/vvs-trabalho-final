@@ -7,10 +7,7 @@ import lombok.Setter;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -31,7 +28,7 @@ public class Cliente {
 
     @ApiModelProperty(value = "Código do cliente", example = "1")
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "CNPJ sem pontuação.", example = "09211531000106")

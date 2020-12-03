@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import br.com.gerenciadorproposta.exception.BusinessException;
 import br.com.gerenciadorproposta.exception.EntityNotFoundException;
 import br.com.gerenciadorproposta.model.Proposta;
-import br.com.gerenciadorproposta.service.ClienteService;
 import br.com.gerenciadorproposta.repository.PropostaRepository;
 
 @Service
