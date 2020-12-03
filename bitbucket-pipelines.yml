@@ -3,16 +3,14 @@ image: maven:3.6.3
 
 pipelines:
   default:
-    - parallel:
-      - step:
-          name: Build and Test
-          caches:
-            - maven
-          script:
-            - mvn -B verify --file pom.xml
-          after-script:
-            - pipe: atlassian/checkstyle-report:0.2.0
-      - step:
-          name: Secrets Scan
-          script:
-            - pipe: atlassian/git-secrets-scan:0.4.3
+    - step:
+        name: Build and Test
+        caches:
+          - maven
+        script:
+          - mvn -B package
+        artifacts:
+          - target/*.jar
+          - target/surefire-reports/*.txt
+        after-script:
+          - pipe: atlassian/checkstyle-report:0.2.0
