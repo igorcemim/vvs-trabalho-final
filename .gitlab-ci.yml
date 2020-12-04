@@ -18,7 +18,7 @@ cache:
 build:
   stage: build
   script:
-    - SPRING_PROFILES_ACTIVE=dev mvn clean compile -Dcheckstyle.skip
+    - mvn clean compile -Dcheckstyle.skip
 
 test:
   services:
@@ -26,7 +26,7 @@ test:
       alias: selenium-chrome-browser
   stage: test
   script:
-    - SPRING_PROFILES_ACTIVE=dev mvn test
+    - mvn test
   artifacts:
     when: always
     untracked: false
@@ -39,7 +39,7 @@ test:
 package:
   stage: package
   script:
-    - mvn package -Dmaven.test.skip=true
+    - SPRING_PROFILES_ACTIVE=release mvn package -Dmaven.test.skip=true
   artifacts:
     untracked: false
     expire_in: 30 days

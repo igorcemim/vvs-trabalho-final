@@ -37,7 +37,7 @@ public class ClienteTest extends BaseFunctionalTest {
 
         List<WebElement> mostradorId = driver.findElements(By.xpath("//h4[contains(.,'ID')]"));
 
-        Assertions.assertTrue(mostradorId.size() == 1);
+        Assertions.assertEquals(1, mostradorId.size());
     }
 
 }
