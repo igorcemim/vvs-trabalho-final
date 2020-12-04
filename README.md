@@ -3,18 +3,21 @@
 - JDK 8
 - Docker
 
-## Como executar
-
-### Utilizando Maven
+## Executar via Maven
 Para executar o projeto basta executar o comando a seguir:
 ```
-./mvnw clean spring-boot:run
+./mvnw spring-boot:run
 ```
 
-### Executar manualmente o container com o Selenium
+## Testes
+
+### Executar o container com o Selenium
+É necessário rodar um container Docker com o Selenium para permitir a execução dos testes funcionais do projeto.
 ```
 docker run --network="host" -d --name selenium -v /dev/shm:/dev/shm selenium/standalone-chrome:4.0.0-beta-1-prerelease-20201202
 ```
 
-### Pipeline
-A pipeline é executada a cada novo commit.
+### Executar os testes e análise estática
+```
+./mvnw test
+```
