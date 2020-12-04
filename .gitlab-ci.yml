@@ -31,6 +31,8 @@ test:
     when: always
     untracked: false
     expire_in: 30 days
+    reports:
+      junit: target/surefire-reports/TEST-*.xml
     paths:
       - target/surefire-reports
       - target/checkstyle-result.xml
