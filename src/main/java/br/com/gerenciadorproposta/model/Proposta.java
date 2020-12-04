@@ -43,6 +43,7 @@ public class Proposta {
 
     @ApiModelProperty(value = "Status")
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @NotNull
