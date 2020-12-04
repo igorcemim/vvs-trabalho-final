@@ -31,7 +31,7 @@ public class PropostaServiceTest {
     @Test
     public void buscarUmDeveLancarExcecaoCorretaAoNaoEncontrarProposta() {
         Assertions.assertThrows(EntityNotFoundException.class, () -> {
-            when(propostaRepository.getOne(1L))
+            when(propostaRepository.findById(1L))
                     .thenThrow(EntityNotFoundException.class);
             propostaService.findOne(1L);
         });
