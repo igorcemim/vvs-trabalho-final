@@ -4,10 +4,13 @@ plugins:
   sonar-java:
     enabled: true
     config:
+      minimum_severity: major
       tests_patterns:
         - src/test/**
 
 exclude_patterns:
   - ".m2/"
+  - ".mvn/"
   - "target/"
   - "src/main/resources/"
+  - "src/test/"

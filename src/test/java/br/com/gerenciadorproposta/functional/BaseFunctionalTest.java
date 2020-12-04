@@ -1,6 +1,10 @@
 package br.com.gerenciadorproposta.functional;
 
-import lombok.extern.slf4j.Slf4j;
+import java.io.File;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.time.Instant;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -14,17 +18,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.time.Instant;
-import java.util.Optional;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Slf4j
-public class BaseFunctionalTest {
+public abstract class BaseFunctionalTest {
     protected static WebDriver driver;
 
     @LocalServerPort
@@ -32,9 +27,9 @@ public class BaseFunctionalTest {
 
     @BeforeAll
     public static void setUp() throws Exception {
-        String addr = getChromeAddr();
-        String port = getChromePort();
-        String url = String.format("http://%s:%s/wd/hub", addr, port);
+        String hostname = getRemoteWebDriverHostname();
+        String port = "4444";
+        String url = String.format("http://%s:%s/wd/hub", hostname, port);
 
         ChromeOptions options = new ChromeOptions();
         driver = new RemoteWebDriver(new URL(url), options);
@@ -42,33 +37,16 @@ public class BaseFunctionalTest {
     }
 
     protected String baseUrl() {
-        String hostname = getHostname();
+        String hostname = getApplicationHostname();
         return String.format("http://%s:%s", hostname, port);
     }
 
-    private String getHostname() {
-        if (isNetworkPerBuildEnabled()) {
-            try {
-                return InetAddress.getLocalHost().getHostAddress();
-            } catch (UnknownHostException e) {
-                throw new RuntimeException("Não foi possível obter o IP.");
-            }
-        }
-        return Optional.ofNullable(System.getenv("HOSTNAME"))
-                .orElse("localhost");
+    private String getApplicationHostname() {
+        return isNetworkPerBuildEnabled() ? "build" : "localhost";
     }
 
-    private static String getChromePort() {
-        return Optional.ofNullable(System.getenv("SELENIUM_STANDALONE_CHROME_PORT_4444_TCP_PORT"))
-                .orElse("4444");
-    }
-
-    private static String getChromeAddr() {
-        if (isNetworkPerBuildEnabled()) {
-            return "selenium-chrome-browser";
-        }
-        return Optional.ofNullable(System.getenv("SELENIUM_STANDALONE_CHROME_PORT_4444_TCP_ADDR"))
-                .orElse("localhost");
+    private static String getRemoteWebDriverHostname() {
+        return isNetworkPerBuildEnabled() ? "selenium-chrome-browser" : "localhost";
     }
 
     private static boolean isNetworkPerBuildEnabled() {

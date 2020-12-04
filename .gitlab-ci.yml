@@ -39,6 +39,7 @@ test:
       junit: target/surefire-reports/TEST-*.xml
     paths:
       - target/surefire-reports
+      - target/site/jacoco
       - target/checkstyle-result.xml
       - target/*.png
 
