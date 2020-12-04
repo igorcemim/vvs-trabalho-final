@@ -1,9 +1,13 @@
 image: maven:3-openjdk-8
 
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
 stages:
   - build
   - test
   - package
+  - code_quality
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
@@ -47,3 +51,9 @@ package:
     expire_in: 30 days
     paths:
       - target/*.jar
+
+code_quality:
+  stage: code_quality
+  artifacts:
+    expose_as: 'Code Quality Report'
+    paths: [gl-code-quality-report.json]
