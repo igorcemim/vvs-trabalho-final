@@ -30,7 +30,7 @@ test:
       alias: selenium-chrome-browser
   stage: test
   script:
-    - mvn test
+    - SPRING_PROFILES_ACTIVE=test mvn test
   artifacts:
     when: always
     untracked: false
