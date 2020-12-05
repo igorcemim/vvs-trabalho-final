@@ -11,8 +11,8 @@ Para executar o projeto basta executar o comando a seguir:
 
 ## Testes
 
-### Subir o Selenium via docker-compose
-É necessário subir um servidor Selenium para permitir a execução dos testes funcionais do projeto. Para fazer isso, utilize o seguinte comando:
+### Executar o Selenium via docker-compose
+É necessário executar um servidor Selenium para permitir a execução dos testes funcionais do projeto. Para fazer isso, utilize o seguinte comando:
 ```
 docker-compose up -d
 ```
