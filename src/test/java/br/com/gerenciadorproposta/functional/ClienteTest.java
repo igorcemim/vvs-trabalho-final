@@ -23,7 +23,6 @@ public class ClienteTest extends BaseFunctionalTest {
         driver.findElement(By.xpath("//button[contains(.,'Adicionar')]")).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(.,'Adicionar - Cliente')]")));
-        List<WebElement> elements = driver.findElements(By.xpath("//h1[contains(.,'Adicionar - Cliente')]"));
 
         ((JavascriptExecutor) driver).executeScript("window.alert = function() {}");
 
