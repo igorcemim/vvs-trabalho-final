@@ -11,10 +11,10 @@ Para executar o projeto basta executar o comando a seguir:
 
 ## Testes
 
-### Executar o container com o Selenium
-É necessário rodar um container Docker com o Selenium para permitir a execução dos testes funcionais do projeto.
+### Subir o Selenium via docker-compose
+É necessário subir um servidor Selenium para permitir a execução dos testes funcionais do projeto. Para fazer isso, utilize o seguinte comando:
 ```
-docker run --network="host" -d --name selenium -v /dev/shm:/dev/shm selenium/standalone-chrome:4.0.0-beta-1-prerelease-20201202
+docker-compose up -d
 ```
 
 ### Executar os testes e análise estática
