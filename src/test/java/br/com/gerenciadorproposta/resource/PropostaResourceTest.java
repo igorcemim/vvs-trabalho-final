@@ -19,7 +19,7 @@ public class PropostaResourceTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$[0].id", is(20001)))
                 .andExpect(jsonPath("$[0].descricao", is("Proposta qualquer")))
                 .andExpect(jsonPath("$[0].valor", is(25000.0)))
-                .andExpect(jsonPath("$[0].data", is("2020-03-01")))
+                .andExpect(jsonPath("$[0].data", is("01/03/2020")))
                 .andExpect(jsonPath("$[0].status", is("APROVADA")))
                 .andExpect(jsonPath("$[0].cliente.id", is(10001)))
                 .andExpect(jsonPath("$[0].cliente.cnpj", is("17778490000154")))

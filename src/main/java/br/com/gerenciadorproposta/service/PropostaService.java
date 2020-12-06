@@ -12,6 +12,7 @@ import br.com.gerenciadorproposta.repository.PropostaRepository;
 
 @Service
 public class PropostaService implements CrudService<Proposta, Long> {
+
     @Autowired
     private PropostaRepository propostaRepository;
 

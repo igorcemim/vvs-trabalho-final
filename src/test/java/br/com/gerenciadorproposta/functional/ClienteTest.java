@@ -34,9 +34,9 @@ public class ClienteTest extends BaseFunctionalTest {
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[contains(.,'ID')]")));
 
-        List<WebElement> mostradorId = driver.findElements(By.xpath("//h4[contains(.,'ID')]"));
+        List<WebElement> labelComId = driver.findElements(By.xpath("//h4[contains(.,'ID')]"));
 
-        Assertions.assertEquals(1, mostradorId.size());
+        Assertions.assertEquals(1, labelComId.size());
     }
 
 }

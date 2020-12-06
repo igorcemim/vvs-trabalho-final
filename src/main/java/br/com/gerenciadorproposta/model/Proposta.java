@@ -36,8 +36,8 @@ public class Proposta {
     @NotNull
     private Double valor;
 
-    @ApiModelProperty(value = "Data da oferta inicial", example = "2019-12-04")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @ApiModelProperty(value = "Data da oferta inicial", example = "25/12/2019")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @NotNull
     private LocalDate data;
 

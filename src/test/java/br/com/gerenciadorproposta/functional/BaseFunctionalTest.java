@@ -1,12 +1,13 @@
 package br.com.gerenciadorproposta.functional;
 
-import org.apache.commons.io.FileUtils;
+import br.com.gerenciadorproposta.util.FileUtil;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -25,11 +26,14 @@ public abstract class BaseFunctionalTest {
     @LocalServerPort
     protected int port;
 
+    @Autowired
+    private FileUtil fileUtil;
+
     @Value("${system.application.hostname}")
     protected String applicationHostname;
 
     @Value("${system.remote-web-driver.hostname}")
-    public String remoteWebDriverHostname;
+    protected String remoteWebDriverHostname;
 
     @BeforeAll
     public void setUp() throws Exception {
@@ -46,11 +50,11 @@ public abstract class BaseFunctionalTest {
     }
 
     @AfterEach
-    public void afterEach(TestInfo testInfo) throws Exception {
+    public void afterEach(TestInfo testInfo) {
         String className = testInfo.getTestClass().map(Class::getSimpleName).orElse("");
         String methodName = testInfo.getTestMethod().map(Method::getName).orElse("");
 
-        takeSnapShot(driver, "Test-" + className + "-" + methodName);
+        takeScreenshot("Test-" + className + "-" + methodName);
     }
 
     @AfterAll
@@ -58,15 +62,13 @@ public abstract class BaseFunctionalTest {
         driver.quit();
     }
 
-    public static void takeSnapShot(WebDriver webdriver, String baseName) throws Exception {
-        String fileWithPath = "./target/" + baseName + Instant.now().toEpochMilli() + ".png";
-        TakesScreenshot scrShot = ((TakesScreenshot) webdriver);
+    public void takeScreenshot(String baseName) {
+        String destinationPath = "./target/" + baseName + Instant.now().toEpochMilli() + ".png";
+        TakesScreenshot scrShot = ((TakesScreenshot) driver);
 
-        File SrcFile = scrShot.getScreenshotAs(OutputType.FILE);
+        File sourceFile = scrShot.getScreenshotAs(OutputType.FILE);
 
-        File DestFile = new File(fileWithPath);
-
-        FileUtils.copyFile(SrcFile, DestFile);
+        fileUtil.copy(sourceFile, destinationPath);
     }
 
 }

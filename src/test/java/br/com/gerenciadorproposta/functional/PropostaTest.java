@@ -32,7 +32,7 @@ public class PropostaTest extends BaseFunctionalTest {
         ((JavascriptExecutor) driver).executeScript("window.alert = function() {}");
 
         driver.findElement(By.id("descricao")).sendKeys("Exemplo de proposta");
-        driver.findElement(By.id("data")).sendKeys("01012020");
+        driver.findElement(By.id("data")).sendKeys("22/01/2020");
         driver.findElement(By.id("valor")).sendKeys("10000");
 
         Select statusSelect = new Select(driver.findElement(By.id("status")));
