@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,18 +28,59 @@ public class PropostaServiceTest {
     private ClienteService clienteService;
 
     @Test
-    public void findAllDeveChamarRepository() {
-        propostaService.findAll();
-        verify(propostaRepository).findAll();
+    public void findOneDeveBuscarProposta() {
+        Proposta proposta = stubProposta();
+        when(propostaRepository.findById(1L))
+                .thenReturn(Optional.of(proposta));
+        propostaService.findOne(1L);
+        verify(propostaRepository).findById(1L);
     }
 
     @Test
-    public void findOneDeveLancarExcecaoCorretaAoNaoEncontrarProposta() {
+    public void findOneDeveLancarExcecaoAoNaoEncontrarRegistro() {
         Assertions.assertThrows(EntityNotFoundException.class, () -> {
-            when(propostaRepository.findById(1L))
-                    .thenThrow(EntityNotFoundException.class);
             propostaService.findOne(1L);
         });
+    }
+
+    @Test
+    public void deleteDeveApagarProposta() {
+        propostaService.delete(1L);
+        verify(propostaRepository).deleteById(1L);
+    }
+
+    @Test
+    public void saveDeveSalvarProposta() {
+        Proposta proposta = stubProposta();
+        propostaService.save(proposta);
+        verify(propostaRepository).save(proposta);
+    }
+
+    @Test
+    public void updateDeveLancarExcecaoAoNaoEncontrarRegistro() {
+        Assertions.assertThrows(EntityNotFoundException.class, () -> {
+            propostaService.update(1L, stubProposta());
+        });
+    }
+
+    @Test
+    public void updateDeveAtualizarProposta() {
+        Proposta proposta = stubProposta();
+        when(propostaRepository.findById(1L))
+                .thenReturn(Optional.of(proposta));
+        propostaService.update(1L, proposta);
+    }
+
+    private Proposta stubProposta() {
+        Proposta proposta = new Proposta();
+        proposta.setCliente(new Cliente());
+        return proposta;
+    }
+
+    @Test
+    public void findAllDeveListarProposta() {
+        propostaService.findAll();
+        verify(propostaRepository).findAll();
     }
 
     @Test
