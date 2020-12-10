@@ -23,7 +23,7 @@ public class PropostaResourceTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$[0].status", is("APROVADA")))
                 .andExpect(jsonPath("$[0].cliente.id", is(10001)))
                 .andExpect(jsonPath("$[0].cliente.cnpj", is("17778490000154")))
-                .andExpect(jsonPath("$[0].cliente.razaoSocial", is("Exemplo2")))
+                .andExpect(jsonPath("$[0].cliente.razaoSocial", is("Microsoft")))
                 .andExpect(jsonPath("$[0].cliente.telefone", is("51977885566")))
                 .andExpect(jsonPath("$[0].cliente.email", is("teste2@teste2.com.br")));
     }

@@ -18,7 +18,7 @@ public class ClienteResourceTest extends BaseIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id", is(10001)))
                 .andExpect(jsonPath("$[0].cnpj", is("17778490000154")))
-                .andExpect(jsonPath("$[0].razaoSocial", is("Exemplo2")))
+                .andExpect(jsonPath("$[0].razaoSocial", is("Microsoft")))
                 .andExpect(jsonPath("$[0].telefone", is("51977885566")))
                 .andExpect(jsonPath("$[0].email", is("teste2@teste2.com.br")));
     }

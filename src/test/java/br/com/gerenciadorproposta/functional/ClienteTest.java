@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.not;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 public class ClienteTest extends BaseFunctionalTest {
@@ -29,7 +29,7 @@ public class ClienteTest extends BaseFunctionalTest {
 
         driver.findElement(By.id("cnpj")).sendKeys("90600089000110");
         driver.findElement(By.id("email")).sendKeys("teste@teste.com.br");
-        driver.findElement(By.id("razaoSocial")).sendKeys("Exemplo");
+        driver.findElement(By.id("razaoSocial")).sendKeys("Coca-cola");
         driver.findElement(By.id("telefone")).sendKeys("51900002222");
         driver.findElement(By.xpath(SELETOR_BOTAO_SALVAR)).click();
 
@@ -44,21 +44,27 @@ public class ClienteTest extends BaseFunctionalTest {
 
     @Test
     public void testarRemocaoClientes() {
-        String SELETOR_REGISTRO = "//td[contains(text(),'10002')]/ancestor::tr";
+        String SELETOR_REGISTRO_LINHA = "//td[contains(text(),'10002')]/ancestor::tr";
         String SELETOR_BOTAO_FILHO_REMOVER = ".//button[contains(text(),'Remover')]";
 
         driver.get(baseUrl() + "/clientes");
 
         wait.until(visibilityOfElementLocated(By.xpath(SELETOR_BOTAO_ADICIONAR)));
 
-        WebElement element = driver.findElement(By.xpath(SELETOR_REGISTRO));
-        element.findElement(By.xpath(SELETOR_BOTAO_FILHO_REMOVER)).click();
+        WebElement registroLinha = driver.findElement(By.xpath(SELETOR_REGISTRO_LINHA));
+        registroLinha.findElement(By.xpath(SELETOR_BOTAO_FILHO_REMOVER)).click();
 
         waitAndAcceptAlert();
 
-        wait.until(not(visibilityOfElementLocated(By.xpath(SELETOR_REGISTRO))));
+        /**
+         * Aguarda o elemento ser removido do DOM
+         */
+        wait.until(ExpectedConditions.stalenessOf(registroLinha));
 
-        List<WebElement> elements = driver.findElements(By.xpath(SELETOR_REGISTRO));
+        /**
+         * Verifica que realmente não encontramos mais o elemento no DOM
+         */
+        List<WebElement> elements = driver.findElements(By.xpath(SELETOR_REGISTRO_LINHA));
         Assertions.assertEquals(Boolean.TRUE, elements.isEmpty());
     }
 

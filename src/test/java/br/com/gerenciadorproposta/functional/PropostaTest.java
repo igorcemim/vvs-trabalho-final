@@ -1,18 +1,16 @@
 package br.com.gerenciadorproposta.functional;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.not;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
-@Slf4j
 public class PropostaTest extends BaseFunctionalTest {
 
     private String SELETOR_BOTAO_ADICIONAR = "//button[contains(.,'Adicionar')]";
@@ -30,7 +28,7 @@ public class PropostaTest extends BaseFunctionalTest {
 
         wait.until(visibilityOfElementLocated(By.xpath("//h1[contains(.,'Adicionar - Proposta')]")));
 
-        driver.findElement(By.id("descricao")).sendKeys("Exemplo de proposta");
+        driver.findElement(By.id("descricao")).sendKeys("Uma proposta qualquer.");
         driver.findElement(By.id("data")).sendKeys("22/01/2020");
         driver.findElement(By.id("valor")).sendKeys("10000");
 
@@ -38,7 +36,7 @@ public class PropostaTest extends BaseFunctionalTest {
         statusSelect.selectByVisibleText("Aprovada");
 
         Select clienteSelect = new Select(driver.findElement(By.id("cliente")));
-        clienteSelect.selectByVisibleText("Exemplo2");
+        clienteSelect.selectByVisibleText("Microsoft");
 
         driver.findElement(By.xpath(SELETOR_BOTAO_SALVAR)).click();
 
@@ -53,21 +51,21 @@ public class PropostaTest extends BaseFunctionalTest {
 
     @Test
     public void testarRemocaoPropostas() {
-        String SELETOR_REGISTRO = "//td[contains(text(),'20001')]/ancestor::tr";
+        String SELETOR_REGISTRO_LINHA = "//td[contains(text(),'20001')]/ancestor::tr";
         String SELETOR_BOTAO_FILHO_REMOVER = ".//button[contains(text(),'Remover')]";
 
         driver.get(baseUrl() + "/propostas");
 
         wait.until(visibilityOfElementLocated(By.xpath(SELETOR_BOTAO_ADICIONAR)));
 
-        WebElement element = driver.findElement(By.xpath(SELETOR_REGISTRO));
-        element.findElement(By.xpath(SELETOR_BOTAO_FILHO_REMOVER)).click();
+        WebElement registroLinha = driver.findElement(By.xpath(SELETOR_REGISTRO_LINHA));
+        registroLinha.findElement(By.xpath(SELETOR_BOTAO_FILHO_REMOVER)).click();
 
         waitAndAcceptAlert();
 
-        wait.until(not(visibilityOfElementLocated(By.xpath(SELETOR_REGISTRO))));
+        wait.until(ExpectedConditions.stalenessOf(registroLinha));
 
-        List<WebElement> elements = driver.findElements(By.xpath(SELETOR_REGISTRO));
+        List<WebElement> elements = driver.findElements(By.xpath(SELETOR_REGISTRO_LINHA));
         Assertions.assertEquals(Boolean.TRUE, elements.isEmpty());
     }
 }
